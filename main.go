@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -41,10 +42,16 @@ func main() {
 		} else if words[i] == "(bin)" {
 			words[i-1] = bin(words[i-1])
 			words[i] = ""
+		} else if words[i] == "a" || words[i] == "A" {
+			if i < len(words)-1 {
+				if vowelChecker(words[i+1]) {
+					words[i] += "n"
+				}
+			}
 		}
 	}
-
-	fmt.Println(words)
+	result := strings.Join(words, " ")
+	fmt.Println(result)
 }
 
 func lower(s string) string {
@@ -147,4 +154,9 @@ func hex(s string) string {
 func bin(s string) string {
 	bin, _ := strconv.ParseInt(s, 2, 64)
 	return strconv.FormatInt(bin, 10)
+}
+
+func vowelChecker(s string) bool {
+	firstRune := []rune((s))
+	return firstRune[0] == 'a' || firstRune[0] == 'e' || firstRune[0] == 'o' || firstRune[0] == 'i' || firstRune[0] == 'u' || firstRune[0] == 'h'
 }
